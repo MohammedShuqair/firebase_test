@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'firstkiclancefirebase.firebasestorage.app',
     iosBundleId: 'com.example.firebaseTest',
   );
+
 }
