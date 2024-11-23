@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1008294411307',
     projectId: 'firstkiclancefirebase',
     storageBucket: 'firstkiclancefirebase.firebasestorage.app',
+    androidClientId: '1008294411307-i556egj0nq2u9megb8hlr0iolqac52g5.apps.googleusercontent.com',
+    iosClientId: '1008294411307-et3v71p3gb9cndd45ftb3t2rrppt6ehl.apps.googleusercontent.com',
     iosBundleId: 'com.example.firebaseTest',
   );
 
