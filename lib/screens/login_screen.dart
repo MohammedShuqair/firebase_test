@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -12,39 +13,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String? name;
-  String? password;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  ///Todo: save user in firebase
+
   Future<void> login() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-      print("user ${userCredential.user.toString()}");
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${e.message}")));
-      // TODO
-    }
+    ///Todo: error handling
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
   }
 
   Future<void> register() async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-      print("user ${userCredential.user.toString()}");
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${e.message}")));
-      // TODO
-    }
+    ///Todo: error handling
+    UserCredential userCredential = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text);
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -59,7 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    UserCredential user =
+        await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   void clear() {
@@ -76,26 +66,33 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.sizeOf(context).height;
-    print("rebuild");
     var inputDecoration = InputDecoration(
       hintText: "email",
       filled: true,
-      fillColor: Colors.grey[200],
+      fillColor: Theme.of(context).colorScheme.surfaceContainer,
     );
+    var buttonStyle = Theme.of(context).textTheme.bodyLarge;
+    var secondaryContainer = Theme.of(context).colorScheme.secondaryContainer;
+    var roundedRectangleBorder =
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(10));
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login", style: TextStyle(fontSize: 24)),
-        backgroundColor: Colors.white,
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Form(
             key: formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(
-                  height: height / 4,
+                  height: height / 8,
+                ),
+                Text(
+                  "Sign in\nYour Account",
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
+                SizedBox(
+                  height: height / 8,
                 ),
                 TextFormField(
                   controller: emailController,
@@ -107,8 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   decoration: inputDecoration,
                 ),
-                SizedBox(
-                  height: height / 12,
+                const SizedBox(
+                  height: 20,
                 ),
                 TextFormField(
                   controller: passwordController,
@@ -125,51 +122,53 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: height / 12,
                 ),
-                ElevatedButton(
+                MaterialButton(
+                  color: secondaryContainer,
+                  shape: roundedRectangleBorder,
                   onPressed: () async {
                     if (formKey.currentState?.validate() ?? false) {
-                      await login();
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (_) => const HomeScreen()));
+                      login();
                     }
                   },
-                  child: const Text("Login"),
+                  child: Text(
+                    "Login",
+                    style: buttonStyle,
+                  ),
                 ),
-                ElevatedButton(
+                MaterialButton(
+                  color: secondaryContainer,
+                  shape: roundedRectangleBorder,
                   onPressed: () async {
                     if (formKey.currentState?.validate() ?? false) {
-                      await register();
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (_) => const HomeScreen()));
+                      register();
                     }
                   },
-                  child: const Text("register"),
+                  child: Text(
+                    "register",
+                    style: buttonStyle,
+                  ),
                 ),
-                ElevatedButton(
+                MaterialButton(
+                  color: secondaryContainer,
+                  shape: roundedRectangleBorder,
                   onPressed: () async {
-                    try {
-                      UserCredential user = await signInWithGoogle();
-                      print("user ${user.toString()}");
-                    } catch (e, s) {
-                      print("error ${e}");
-                      print("stack ${s}");
-                    }
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (_) => const HomeScreen()));
+                    signInWithGoogle();
                   },
-                  child: const Text("google"),
+                  child: Text(
+                    "google",
+                    style: buttonStyle,
+                  ),
                 ),
-                ElevatedButton(
+                MaterialButton(
+                  color: secondaryContainer,
+                  shape: roundedRectangleBorder,
                   onPressed: () async {
                     clear();
                   },
-                  child: const Text("clear"),
+                  child: Text(
+                    "clear",
+                    style: buttonStyle,
+                  ),
                 ),
               ],
             ),

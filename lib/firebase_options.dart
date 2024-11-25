@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -50,22 +47,29 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD8j18hoR9hRJ2YF5uAO0_4hI8MQ4cpwyM',
-    appId: '1:1008294411307:android:a0dfc0a5ad9c0bafa83e6e',
-    messagingSenderId: '1008294411307',
-    projectId: 'firstkiclancefirebase',
-    storageBucket: 'firstkiclancefirebase.firebasestorage.app',
+    apiKey: 'AIzaSyBupS8gc4Fz04SmGYbKCGxcc0MU3NDze1c',
+    appId: '1:758763526828:android:b37e841758c7e92b45dd09',
+    messagingSenderId: '758763526828',
+    projectId: 'shuqair-portfolio',
+    storageBucket: 'shuqair-portfolio.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDL-wFTuQ6voD8Fyi6-B4xtcuvKzO1rACQ',
-    appId: '1:1008294411307:ios:e82639f8d8b9372da83e6e',
-    messagingSenderId: '1008294411307',
-    projectId: 'firstkiclancefirebase',
-    storageBucket: 'firstkiclancefirebase.firebasestorage.app',
-    androidClientId: '1008294411307-i556egj0nq2u9megb8hlr0iolqac52g5.apps.googleusercontent.com',
-    iosClientId: '1008294411307-et3v71p3gb9cndd45ftb3t2rrppt6ehl.apps.googleusercontent.com',
-    iosBundleId: 'com.example.firebaseTest',
+    apiKey: 'AIzaSyBNozmmlKmghNXmymSVUgMIQj0mHH4dpc4',
+    appId: '1:758763526828:ios:f643865b545176b045dd09',
+    messagingSenderId: '758763526828',
+    projectId: 'shuqair-portfolio',
+    storageBucket: 'shuqair-portfolio.firebasestorage.app',
+    iosBundleId: 'com.chatAppFirebaseExample',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDzDulg7szIAay5VbfXc3xXBr0gl1dnNnE',
+    appId: '1:758763526828:web:fb865ffd62e819b345dd09',
+    messagingSenderId: '758763526828',
+    projectId: 'shuqair-portfolio',
+    authDomain: 'shuqair-portfolio.firebaseapp.com',
+    storageBucket: 'shuqair-portfolio.firebasestorage.app',
   );
 
 }
