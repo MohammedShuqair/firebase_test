@@ -1,7 +1,6 @@
 import 'package:firebase_test/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'chat/ui/chat_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -20,10 +19,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.light,
+      home: const SplashScreen(),
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_test/screens/home_screen.dart';
 import 'package:firebase_test/screens/login_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../chat/ui/chat_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,13 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
         builder: (context, snapshot) {
           print("snapshot ${snapshot.toString()}");
           if (snapshot.hasData) {
-            return HomeScreen();
+            return const ChatScreen();
           } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           } else {
-            return LoginScreen();
+            return const LoginScreen();
           }
         },
       ),

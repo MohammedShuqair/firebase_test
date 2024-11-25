@@ -60,6 +60,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '758763526828',
     projectId: 'shuqair-portfolio',
     storageBucket: 'shuqair-portfolio.firebasestorage.app',
+    androidClientId: '758763526828-oa12fks9i05l92l6r4pu9b485s55ikor.apps.googleusercontent.com',
+    iosClientId: '758763526828-ccap5m0156ds25b5vvhq4175lvvmi2sb.apps.googleusercontent.com',
     iosBundleId: 'com.chatAppFirebaseExample',
   );
 

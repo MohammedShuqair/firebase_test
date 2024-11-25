@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,9 +10,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int counter = 0;
   List<String> ids = [];
   List<Map<String, dynamic>> docs = [];
+  UserRepo userRepo = UserRepo();
 
   @override
   void initState() {
@@ -20,9 +20,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void getUsers() {
-    try {} catch (e, s) {
-      print("error ${e}");
-      print("error ${s}");
+    try {
+      userRepo.getUsers().listen((qSnapShot) {
+        ids.clear();
+        docs.clear();
+        for (final doc in qSnapShot.docs) {
+          ids.add(doc.id);
+          docs.add(doc.data());
+          setState(() {});
+        }
+      });
+    } catch (e, s) {
+      print("error $e");
+      print("error $s");
     }
   }
 
@@ -35,13 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () {
               FirebaseAuth.instance.signOut();
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
           ),
           IconButton(
             onPressed: () {
               getUsers();
             },
-            icon: Icon(Icons.get_app),
+            icon: const Icon(Icons.get_app),
           )
         ],
       ),
@@ -50,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           leading: Text(ids[index]),
           title: Text(docs[index].toString()),
         ),
-        separatorBuilder: (_, index) => SizedBox(
+        separatorBuilder: (_, index) => const SizedBox(
           height: 10,
         ),
         itemCount: docs.length,

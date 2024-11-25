@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_test/extentions/show_snak_bar_extenstion.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
-import 'home_screen.dart';
+import '../repositories/user_repository.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,40 +15,31 @@ class _LoginScreenState extends State<LoginScreen> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  UserRepo userRepo = UserRepo();
 
-  ///Todo: save user in firebase
-
-  Future<void> login() async {
-    ///Todo: error handling
-    UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text);
+  void callFirebaseAuth(Future<UserCredential> Function() call) async {
+    try {
+      UserCredential user = await call();
+      print("user ${user.user?.uid}");
+    } on FirebaseAuthException catch (e) {
+      context.showSnackBar(e.message ?? "Unknown Error");
+    }
   }
 
-  Future<void> register() async {
-    ///Todo: error handling
-    UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: emailController.text, password: passwordController.text);
+  void login() {
+    callFirebaseAuth(() => userRepo.login(
+        email: emailController.text, pass: passwordController.text));
   }
 
-  Future<void> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  void register() {
+    callFirebaseAuth(() {
+      return userRepo.register(
+          email: emailController.text, pass: passwordController.text);
+    });
+  }
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    UserCredential user =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+  void authByGoogle() {
+    callFirebaseAuth(userRepo.signInWithGoogle);
   }
 
   void clear() {
@@ -152,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: secondaryContainer,
                   shape: roundedRectangleBorder,
                   onPressed: () async {
-                    signInWithGoogle();
+                    authByGoogle();
                   },
                   child: Text(
                     "google",

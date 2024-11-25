@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "758763526828-935ugct2bmv6nbp8k3l3e1lieb7gr1ta.apps.googleusercontent.com",
+          "client_id": "758763526828-oa12fks9i05l92l6r4pu9b485s55ikor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chatAppFirebaseExample",
+            "certificate_hash": "72339f8fc422f1bde16a2559ad71d4b21620ff26"
+          }
+        },
+        {
+          "client_id": "758763526828-762lttsr7p39qc1qdv4upj0un2qscbvp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "758763526828-935ugct2bmv6nbp8k3l3e1lieb7gr1ta.apps.googleusercontent.com",
+              "client_id": "758763526828-762lttsr7p39qc1qdv4upj0un2qscbvp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "758763526828-ccap5m0156ds25b5vvhq4175lvvmi2sb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chatAppFirebaseExample"
+              }
             }
           ]
         }
@@ -43,7 +58,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "758763526828-935ugct2bmv6nbp8k3l3e1lieb7gr1ta.apps.googleusercontent.com",
+          "client_id": "758763526828-762lttsr7p39qc1qdv4upj0un2qscbvp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -56,8 +71,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "758763526828-935ugct2bmv6nbp8k3l3e1lieb7gr1ta.apps.googleusercontent.com",
+              "client_id": "758763526828-762lttsr7p39qc1qdv4upj0un2qscbvp.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "758763526828-ccap5m0156ds25b5vvhq4175lvvmi2sb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chatAppFirebaseExample"
+              }
             }
           ]
         }
