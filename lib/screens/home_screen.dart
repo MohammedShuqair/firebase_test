@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_test/repositories/user_repository.dart';
+import 'package:firebase_test/chat/models/chat_model.dart';
+import 'package:firebase_test/chat/ui/chat_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../chat/repository/chats_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,25 +13,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> ids = [];
-  List<Map<String, dynamic>> docs = [];
-  UserRepo userRepo = UserRepo();
+  List<ChatModel> chats = [];
+  ChatsRepository chatsRepo = ChatsRepository();
+  late User user;
 
   @override
   void initState() {
     super.initState();
+    user = FirebaseAuth.instance.currentUser!;
+    getChats();
   }
 
-  void getUsers() {
+  void getChats() {
     try {
-      userRepo.getUsers().listen((qSnapShot) {
-        ids.clear();
-        docs.clear();
-        for (final doc in qSnapShot.docs) {
-          ids.add(doc.id);
-          docs.add(doc.data());
-          setState(() {});
-        }
+      chatsRepo.getChats(user.uid).listen((chatsList) {
+        chats = chatsList;
+        setState(() {});
       });
     } catch (e, s) {
       print("error $e");
@@ -47,23 +47,24 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             icon: const Icon(Icons.logout),
           ),
-          IconButton(
-            onPressed: () {
-              getUsers();
-            },
-            icon: const Icon(Icons.get_app),
-          )
         ],
       ),
       body: ListView.separated(
         itemBuilder: (_, index) => ListTile(
-          leading: Text(ids[index]),
-          title: Text(docs[index].toString()),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return ChatScreen(
+                chatModel: chats[index],
+              );
+            }));
+          },
+          leading: Text(chats[index].id),
+          title: Text(chats[index].lastMessage?.text ?? ""),
         ),
         separatorBuilder: (_, index) => const SizedBox(
           height: 10,
         ),
-        itemCount: docs.length,
+        itemCount: chats.length,
       ),
     );
   }

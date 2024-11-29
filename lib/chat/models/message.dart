@@ -4,12 +4,13 @@ class MessageModel {
   String? text;
   Timestamp? time;
   String? senderId;
+  String? receiverId;
 
-  MessageModel({
-    this.text,
-    this.time,
-    this.senderId,
-  });
+  MessageModel({this.text, this.time, this.senderId, this.receiverId});
+
+  bool isCurrentUserSender(String uid) {
+    return senderId == uid;
+  }
 
   factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(
         text: json["text"],

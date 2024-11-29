@@ -1,17 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/chat/models/message.dart';
 import 'package:firebase_test/chat/repository/chat_repository.dart';
+import 'package:firebase_test/models/user_model.dart';
+import 'package:firebase_test/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
+
+import '../models/chat_model.dart';
+import '../repository/notification_repository.dart';
 
 class ChatProvider extends ChangeNotifier {
   ChatRepository chatRepository;
+  UserRepo userRepo = UserRepo();
+  NotificationRepository notificationRepository = NotificationRepository();
   List<MessageModel> messages = [];
-  final TextEditingController messageController = TextEditingController();
-  User user;
+  final ChatModel chatModel;
 
-  ChatProvider(this.chatRepository, this.user) {
-    getChat();
+  final TextEditingController messageController = TextEditingController();
+  UserModel? user;
+  ScrollController scrollController = ScrollController();
+
+  ChatProvider(this.chatRepository, String uid, this.chatModel) {
+    getUser(uid).then((v) {
+      getChat();
+    });
+  }
+
+  Future<void> getUser(String uid) async {
+    user = await userRepo.getUser(uid);
+    notifyListeners();
   }
 
   Future addMessage() async {
@@ -20,8 +36,19 @@ class ChatProvider extends ChangeNotifier {
       try {
         message = messageController.text;
         messageController.clear();
-        await chatRepository.addMessage(MessageModel(
-            text: message, time: Timestamp.now(), senderId: user.uid));
+
+        var messageModel = MessageModel(
+            text: message,
+            time: Timestamp.now(),
+            senderId: user!.id,
+            receiverId: chatModel.getOtherUid(user!.id));
+        await chatRepository.addMessage(
+          chatId: chatModel.id,
+          message: messageModel,
+          senderName: user?.name ?? "",
+        );
+        scrollController.animateTo(0,
+            duration: const Duration(milliseconds: 400), curve: Curves.easeIn);
       } catch (e) {
         messageController.text = message;
       }
@@ -29,7 +56,7 @@ class ChatProvider extends ChangeNotifier {
   }
 
   void getChat() {
-    chatRepository.getChat().listen((messagesList) {
+    chatRepository.getChat(chatModel.id).listen((messagesList) {
       messages.clear();
       messages.addAll(messagesList);
       notifyListeners();
@@ -39,6 +66,7 @@ class ChatProvider extends ChangeNotifier {
   @override
   void dispose() {
     messageController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 }

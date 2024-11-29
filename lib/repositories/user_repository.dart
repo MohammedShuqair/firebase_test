@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../models/user_model.dart';
+
 class UserRepo {
   static const usersCollection = "users";
 
@@ -58,5 +60,13 @@ class UserRepo {
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getUsers() {
     return FirebaseFirestore.instance.collection(usersCollection).snapshots();
+  }
+
+  Future<UserModel> getUser(String uid) async {
+    final doc = await FirebaseFirestore.instance
+        .collection(usersCollection)
+        .doc(uid)
+        .get();
+    return UserModel.fromJson(doc.data()!, uid: doc.id);
   }
 }

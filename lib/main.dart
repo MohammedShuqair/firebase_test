@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       home: const SplashScreen(),
     );
   }
