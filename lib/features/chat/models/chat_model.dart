@@ -1,4 +1,4 @@
-import 'package:firebase_test/chat/models/message.dart';
+import 'package:firebase_test/features/chat/models/message.dart';
 
 class ChatModel {
   /// list of user ids, to get user chats only

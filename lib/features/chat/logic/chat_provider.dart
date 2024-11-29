@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_test/chat/models/message.dart';
-import 'package:firebase_test/chat/repository/chat_repository.dart';
+import 'package:firebase_test/features/chat/models/message.dart';
+import 'package:firebase_test/features/chat/repository/chat_repository.dart';
 import 'package:firebase_test/models/user_model.dart';
 import 'package:firebase_test/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../models/chat_model.dart';
-import '../repository/notification_repository.dart';
+import '../../notification/repository/notification_repository.dart';
 
 class ChatProvider extends ChangeNotifier {
   ChatRepository chatRepository;

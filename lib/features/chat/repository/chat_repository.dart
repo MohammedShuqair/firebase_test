@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_test/chat/models/message.dart';
-import 'package:firebase_test/chat/models/notification.dart';
+import 'package:firebase_test/features/chat/models/message.dart';
+import 'package:firebase_test/features/notification/models/notification.dart';
 
 class ChatRepository {
   static const messagesCollection = "messages";

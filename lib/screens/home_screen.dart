@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_test/chat/models/chat_model.dart';
-import 'package:firebase_test/chat/ui/chat_screen.dart';
+import 'package:firebase_test/features/chat/models/chat_model.dart';
+import 'package:firebase_test/features/chat/ui/chat_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../chat/repository/chats_repository.dart';
+import '../features/chat/repository/chats_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

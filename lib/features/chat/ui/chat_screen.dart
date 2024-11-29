@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_test/chat/logic/chat_provider.dart';
-import 'package:firebase_test/chat/models/chat_model.dart';
-import 'package:firebase_test/chat/repository/chat_repository.dart';
+import 'package:firebase_test/features/chat/logic/chat_provider.dart';
+import 'package:firebase_test/features/chat/models/chat_model.dart';
+import 'package:firebase_test/features/chat/repository/chat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
