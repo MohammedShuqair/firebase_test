@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_test/features/chat/models/chat_model.dart';
 import 'package:firebase_test/features/chat/ui/chat_screen.dart';
+import 'package:firebase_test/features/notification/logic/notification_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../features/chat/repository/chats_repository.dart';
+import '../features/notification/ui/widgets/notification_badge.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,11 +20,37 @@ class _HomeScreenState extends State<HomeScreen> {
   ChatsRepository chatsRepo = ChatsRepository();
   late User user;
 
+  /// [didChangeDependencies] called when any Foo1.of<Foo2>(context)
+  /// notify listeners
+  @override
+  void didChangeDependencies() {
+    NotificationProvider notificationProvider =
+        Provider.of<NotificationProvider>(context);
+    print("didChangeDependencies: ${notificationProvider.notificationCount}");
+    super.didChangeDependencies();
+  }
+
   @override
   void initState() {
     super.initState();
     user = FirebaseAuth.instance.currentUser!;
+    listenToNotifications(context, user.uid);
     getChats();
+  }
+
+  /// get notification using [NotificationProvider]
+  /// context.read<NotificationProvider>(); == Provider.of<NotificationProvider>(context,listen: false);
+  ///  context.watch<NotificationProvider>(); == Provider.of<NotificationProvider>(context);
+  listenToNotifications(BuildContext context, String uid) {
+    WidgetsBinding.instance.addPostFrameCallback((duration) {
+      if (mounted) {
+        NotificationProvider provider = context.read<NotificationProvider>();
+        provider.getFirebaseNotifications(
+          uid,
+          context,
+        );
+      }
+    });
   }
 
   void getChats() {
@@ -40,6 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: const UnconstrainedBox(
+          child: NotificationBadge(),
+        ),
         actions: [
           IconButton(
             onPressed: () {

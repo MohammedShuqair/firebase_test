@@ -11,6 +11,10 @@ class NotificationModel {
     required this.name,
   });
 
+  String getMessageText() {
+    return message?.text ?? "";
+  }
+
   factory NotificationModel.fromJson(Map<String, dynamic> map, String docId) {
     return NotificationModel(
       docId: docId,

@@ -21,7 +21,7 @@ class ChatProvider extends ChangeNotifier {
 
   ChatProvider(this.chatRepository, String uid, this.chatModel) {
     getUser(uid).then((v) {
-      getChat();
+      listenToChat();
     });
   }
 
@@ -55,10 +55,12 @@ class ChatProvider extends ChangeNotifier {
     }
   }
 
-  void getChat() {
+  void listenToChat() {
     chatRepository.getChat(chatModel.id).listen((messagesList) {
       messages.clear();
       messages.addAll(messagesList);
+
+      ///set read messages notification collection
       notifyListeners();
     });
   }

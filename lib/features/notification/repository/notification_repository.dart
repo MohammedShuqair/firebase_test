@@ -14,7 +14,8 @@ class NotificationRepository {
           .doc(uid)
           .collection(notificationCollection);
 
-  Stream<List<NotificationModel>> getNotificationCount(String currentUserId) {
+  Stream<List<NotificationModel>> getFirebaseNotification(
+      String currentUserId) {
     return _getNotificationCollectionRef(currentUserId)
         .snapshots()
         .map((qSnapShot) {
